@@ -4,6 +4,7 @@
     <%= for topic <- @topics do %>
       <li class="collection-item">
         <%= topic.title %>
+        <%= link("delete", to: topic_path(@conn, :destroy, topic), method: :delete) %>
       </li>
     <% end %>
 </ul>

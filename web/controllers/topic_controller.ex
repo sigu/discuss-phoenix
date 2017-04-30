@@ -38,8 +38,20 @@ defmodule Discuss.TopicController do
         conn
         |> put_flash(:info, "Successfully updated topic")
         |> redirect(to: topic_path(conn, :index))
-      {:error, changeset } ->
+      {:error, changeset} ->
         render conn, "edit.html", changeset: changeset
+    end
+  end
+
+  def destroy(conn, %{"id" => id}) do
+    topic = Repo.get!(Topic, id)
+    case Repo.delete(topic) do
+      {:ok, _struct} ->
+        conn
+        |> put_flash(:info, "Successfully deleted \"#{topic.title}\"")
+        |> redirect(to: topic_path(conn, :index))
+      {:error, changeset} ->
+        render conn, "index.html"
     end
   end
 end
